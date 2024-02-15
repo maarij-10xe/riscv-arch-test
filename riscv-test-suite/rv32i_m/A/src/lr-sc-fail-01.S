@@ -1,5 +1,6 @@
 //
 // This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-fail covergroup.
+// This test first does the load reserve and then it store reserve to the different reservation set.
 // 
 #include "model_test.h"
 #include "arch_test.h"
@@ -17,37 +18,34 @@ RVTEST_CASE(0,"//check ISA:=regex(.*32.*);check ISA:=regex(.*32.*);check ISA:=re
 
 RVTEST_SIGBASE(x1,signature_x1_1)
 
-LA (x31, rvtest_data)
-LA (x28, rvtest_data)
-addi x28, x28, 16
+LA (x31, rvtest_data)   # Load address of rvtest_data in x31
+LA (x28, rvtest_data)   # Load address of rvtest_data in x28
+addi x28, x28, 16       # Add 16 to address of rvtest_data
 
 
 inst_0:
-lr.w x30, (x31)
-
-
-
-sc.w x29, x30, (x28)
+lr.w x30, (x31)         # Load reserve from rvtest_data
+sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 16
 
 inst_1:
-addi x31, x31, 4
-addi x28, x28, 4
-lr.w x30, (x31)
-sc.w x29, x30, (x28)
+addi x31, x31, 4        # Add 4 to rvtest_data in x31
+addi x28, x28, 4        # Add 4 to rvtest_data in x28
+lr.w x30, (x31)         # Load reserve from rvtest_data + 4
+sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 20
 
 
 inst_2:
-addi x31, x31, 4
-addi x28, x28, 4
-lr.w x30, (x31)
-sc.w x29, x30, (x28)
+addi x31, x31, 4        # Add 4 to rvtest_data in x31
+addi x28, x28, 4        # Add 4 to rvtest_data in x28
+lr.w x30, (x31)         # Load reserve from rvtest_data + 8
+sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 24
 
 
 inst_3:
-addi x31, x31, 4
-addi x28, x28, 4
-lr.w x30, (x31)
-sc.w x29, x30, (x28)
+addi x31, x31, 4        # Add 4 to rvtest_data in x31
+addi x28, x28, 4        # Add 4 to rvtest_data in x28
+lr.w x30, (x31)         # Load reserve from rvtest_data + 12
+sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 28
 
 #endif
 

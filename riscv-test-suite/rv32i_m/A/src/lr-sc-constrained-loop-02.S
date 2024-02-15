@@ -1,5 +1,6 @@
 //
 // This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-constrained-loop covergroup.
+// This test first acquires access through load reserve and during the loop it performs a sc to another address and then it store reserve to the reservation set, the store reserve fails and is retried 4 times and keeps on failing.
 // 
 #include "model_test.h"
 #include "arch_test.h"
@@ -17,18 +18,20 @@ RVTEST_CASE(0,"//check ISA:=regex(.*32.*);check ISA:=regex(.*32.*);check ISA:=re
 
 RVTEST_SIGBASE(x1,signature_x1_1)
 
-LA (x31, rvtest_data)
-LI (x27, 0x4)
+
+LA (x31, rvtest_data)           # Load address of rvtest_data in x31
+LA (x26, rvtest_data)           # Load address of rvtest_data in x26
+addi x28, x28, 4                # Add 4 to address of rvtest_data
+LI (x27, 0x4)                   # Load 4 in x27 for retries
 
 inst_0:
-beqz x27, stop_retry
-lr.w.aq x30, (x31)
-li   x28, 0x0000FFFF
+beqz x27, stop_retry            # If 4 retries have reached zero stop retrying
+lr.w.aq x30, (x31)              # Load reserve and acquire from rvtest_data
+li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-addi x31, x31, 4  
-sc.w.rl  x29, x30, (x31)
-addi x27, x27, -1
-bnez x29, inst_0
+sc.w.rl  x29, x30, (x26)        # Store conditional and release to rvtest_data + 4
+addi x27, x27, -1               # Decrease counter for retries
+bnez x29, inst_0                # Check if store conditional passed otherwise retry
 
 stop_retry:
 

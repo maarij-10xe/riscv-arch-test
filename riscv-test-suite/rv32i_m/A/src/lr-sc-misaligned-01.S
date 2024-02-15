@@ -1,5 +1,6 @@
 //
 // This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-misaligned covergroup.
+//This test first does the load reserve and then it store reserve to the same reservation set, the address of the reservation set is misaligned by 1, 2 and 3 bytes.
 // 
 #include "model_test.h"
 #include "arch_test.h"
@@ -17,22 +18,26 @@ RVTEST_CASE(0,"//check ISA:=regex(.*32.*);check ISA:=regex(.*32.*);check ISA:=re
 
 RVTEST_SIGBASE(x1,signature_x1_1)
 
-LA (x31, rvtest_data)
+LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_0:
-addi x31, x31, 1
-lr.w x30, (x31)
-sc.w x29, x30, (x31)
+addi x31, x31, 1        # Add 1 to rvtest_data
+lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 1
+sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 1    
+
+LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_1:
-addi x31, x31, 2
-lr.w x30, (x31)
-sc.w x29, x30, (x31)
+addi x31, x31, 2        # Add 2 to rvtest_data
+lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 2
+sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 2
+
+LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_2:
-addi x31, x31, 3
-lr.w x30, (x31)
-sc.w x29, x30, (x31)
+addi x31, x31, 3        # Add 3 to rvtest_data
+lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 3
+sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 3
 
 #endif
 

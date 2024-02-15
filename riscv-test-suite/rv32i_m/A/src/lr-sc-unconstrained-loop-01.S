@@ -1,5 +1,6 @@
 //
 // This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-unconstrained-loop covergroup.
+// This test first acquires access through load reserve and during the loop it performs only I type instructions and then it store reserve to the same reservation set. After that another LR/SC sequence is performed outside of the constrained loop.
 // 
 #include "model_test.h"
 #include "arch_test.h"
@@ -17,32 +18,34 @@ RVTEST_CASE(0,"//check ISA:=regex(.*32.*);check ISA:=regex(.*32.*);check ISA:=re
 
 RVTEST_SIGBASE(x1,signature_x1_1)
 
-LA (x31, rvtest_data)
-LI (x27, 0x4)
+LA (x31, rvtest_data)           # Load address of rvtest_data
+LI (x27, 0x4)                   # Load 4 in x27 for retries
 
 inst_0:
-beqz x27, stop_retry_inst_0
-lr.w.aq x30, (x31)
-li   x28, 0x0000FFFF
+beqz x27, stop_retry_inst_0     # If 4 retries have reached zero stop retrying
+lr.w.aq x30, (x31)              # Load reserve and acquire from rvtest_data
+li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-sc.w.rl  x29, x30, (x31)
-addi x27, x27, -1
-bnez x29, inst_0
+sc.w.rl  x29, x30, (x31)        # Store conditional and release to same address 
+addi x27, x27, -1               # Decrease counter for retries
+bnez x29, inst_0                # Check if store conditional passed otherwise retry
 
 stop_retry_inst_0:
 
-LA (x31, rvtest_data)
-addi x31, x31, 4
-LI (x27, 0x4)
+LA (x31, rvtest_data)           # Load address of rvtest_data
+addi x31, x31, 4                # Add 4 to go to next address
+LI (x27, 0x4)                   # Load 4 in x27 for retries
+
+# LR/SC out of loop
 
 inst_1:
-beqz x27, stop_retry_inst_1
-lr.w x30, (x31)
-li   x28, 0x0000FFFF
+beqz x27, stop_retry_inst_1     # If 4 retries have reached zero stop retrying
+lr.w x30, (x31)                 # Load reserve from rvtest_data
+li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-sc.w x29, x30, (x31)
-addi x27, x27, -1
-bnez x29, inst_1
+sc.w x29, x30, (x31)            # Store conditional to same address
+addi x27, x27, -1               # Decrease counter for retries
+bnez x29, inst_1                # Check if store conditional passed otherwise retry
 
 stop_retry_inst_1:
 
