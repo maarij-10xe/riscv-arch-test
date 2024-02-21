@@ -1,7 +1,7 @@
 #For lr-sc-01.S
 lr-sc-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -15,7 +15,7 @@ lr-sc-01:
 #For lr-sc-fail-01.S
 lr-sc-fail-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -31,7 +31,7 @@ lr-sc-fail-01:
 #For lr-sc-fail-02.S
 lr-sc-fail-02:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -47,7 +47,7 @@ lr-sc-fail-02:
 #For lr-sc-sw.S
 lr-sc-sw:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -66,7 +66,7 @@ lr-sc-sw:
 #For lr-aq-sc-01.S
 lr-aq-sc-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -82,7 +82,7 @@ lr-aq-sc-01:
 #For lr-aq-sc-rl-01.S
 lr-aq-sc-rl-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -98,7 +98,7 @@ lr-aq-sc-rl-01:
 #For lr-sc-constrained-loop-01.S
 lr-sc-constrained-loop-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -114,7 +114,7 @@ lr-sc-constrained-loop-01:
 #For lr-sc-constrained-loop-02.S
 lr-sc-constrained-loop-02:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -130,7 +130,7 @@ lr-sc-constrained-loop-02:
 #For lr-sc-constrained-loop-03.S
 lr-sc-constrained-loop-03:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -146,7 +146,7 @@ lr-sc-constrained-loop-03:
 #For lr-sc-constrained-loop-04.S
 lr-sc-constrained-loop-04:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -162,7 +162,7 @@ lr-sc-constrained-loop-04:
 #For lr-sc-unconstrained-loop-01.S
 lr-sc-unconstrained-loop-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -178,7 +178,7 @@ lr-sc-unconstrained-loop-01:
 #For lr-sc-rl-01.S
 lr-sc-rl-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
@@ -194,7 +194,7 @@ lr-sc-rl-01:
 #For lr-sc-misaligned-01.S
 lr-sc-misaligned-01:
   config:
-    - check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
+    - check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True;
   mnemonics:
     lr.w: 0
     sc.w: 0
