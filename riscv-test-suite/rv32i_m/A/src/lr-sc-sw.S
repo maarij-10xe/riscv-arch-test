@@ -1,10 +1,10 @@
 //
-// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-fail covergroup.
+// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-fail covergroup.
 // This test first acquires access through load reserve and before the store reserve to the reservation set it does another sw to the same address and then it store reserve to the same reservation set.
 // 
 #include "model_test.h"
 #include "arch_test.h"
-RVTEST_ISA("RV64IA_Zicsr")
+RVTEST_ISA("RV32IA_Zicsr")
 
 .section .text.init
 .globl rvtest_entry_point
@@ -14,24 +14,25 @@ RVTEST_CODE_BEGIN
 
 #ifdef TEST_CASE_1
 
-RVTEST_CASE(0,"//check ISA:=regex(.*64.*);check ISA:=regex(.*64.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True; def TEST_CASE_1=True;",lr-sc-fail)
+RVTEST_CASE(0,"//check ISA:=regex(.*32.*);check ISA:=regex(.*32.*);check ISA:=regex(.*I.*A.*Zicsr.*); def rvtest_mtrap_routine=True; def TEST_CASE_1=True;",lr-sc-sw)
 
 RVTEST_SIGBASE(x8,signature_x8)
 
 LA (x31, rvtest_data)   # Load address of rvtest_data in 31
 addi x28, x31, 4        # Load address of rvtest_data + 4 in x28
+LI (x5, 0)              # Initializing x5 with zero
 
 inst_0:
-lr.d.aq x30, (x31)      # Load reserve and acquire from rvtest_data
+lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
 sw   x5, (x31)          # Store word to rvtest_data
 li   x30, 0             # Load zero to verify the changed value
-sc.d x29, x30, (x31)    # Store conditional to same address
+sc.w x29, x30, (x31)    # Store conditional to same address
 
 inst_1:
-lr.d.aq x30, (x31)      # Load reserve and acquire from rvtest_data
-sw   x5, (x28)          # Store word to rvtest_data + 4
-li   x30, 0             # Load zero to verify the changed value
-sc.d x29, x30, (x31)    # Store conditional to same address
+lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
+sw   x30, (x28)         # Store word to rvtest_data + 4
+li   x5, 0              # Load zero to verify the changed value
+sc.w x29, x30, (x31)    # Store conditional to same address
 
 
 #endif
