@@ -25,6 +25,7 @@ addi x28, x28, 16       # Add 16 to address of rvtest_data
 inst_0:
 lr.w x30, (x31)         # Load Reserve from rvtest_data
 sc.w x29, x30, (x28)    # Store Condtional to rvtest_data + 16
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store Conditional to rvtest_data
 
 inst_1:
@@ -32,6 +33,7 @@ addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
 lr.w x30, (x31)         # Load reserve from rvtest_data + 4
 sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 20
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store Conditional to rvtest_data + 4
 
 inst_2:
@@ -39,6 +41,7 @@ addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
 lr.w x30, (x31)         # Load reserve from rvtest_data + 8
 sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 24
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store Conditional to rvtest_data + 8
 
 inst_3:
@@ -46,6 +49,7 @@ addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
 lr.w x30, (x31)         # Load reserve from rvtest_data + 12
 sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 28
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store Conditional to rvtest_data  + 12
 
 #endif
@@ -61,12 +65,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
-.word 0xbabecafe
-.word 0xabecafeb
-.word 0xbecafeba
-.word 0xecafebab
-.align 4
-
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

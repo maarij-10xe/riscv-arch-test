@@ -24,11 +24,13 @@ addi x28, x31, 4        # Load address of rvtest_data + 4 in x28
 inst_0:
 lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
 sw   x30, (x31)         # Store word to rvtest_data
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store conditional to same address
 
 inst_1:
 lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
 sw   x30, (x28)         # Store word to rvtest_data + 4
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store conditional to same address
 
 
@@ -45,12 +47,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
-.word 0xbabecafe
-.word 0xabecafeb
-.word 0xbecafeba
-.word 0xecafebab
-.align 4
-
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

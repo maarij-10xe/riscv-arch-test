@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-unconstrained-loop covergroup.
+// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-unconstrained-loop covergroup.
 // This test first acquires access through load reserve and during the loop it performs only I type instructions and then it store reserve to the same reservation set. After that another LR/SC sequence is performed outside of the constrained loop.
 // 
 #include "model_test.h"
@@ -23,10 +23,11 @@ LI (x27, 0x4)                   # Load 4 in x27 for retries
 
 inst_0:
 beqz x27, stop_retry_inst_0     # If 4 retries have reached zero stop retrying
-lr.w.aq x30, (x31)              # Load reserve and acquire from rvtest_data
+lr.d.aq x30, (x31)              # Load reserve and acquire from rvtest_data
 li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-sc.w.rl  x29, x30, (x31)        # Store conditional and release to same address 
+li   x30, 0                     # Load zero to verify the changed value
+sc.d.rl  x29, x30, (x31)        # Store conditional and release to same address 
 addi x27, x27, -1               # Decrease counter for retries
 bnez x29, inst_0                # Check if store conditional passed otherwise retry
 
@@ -40,10 +41,11 @@ LI (x27, 0x4)                   # Load 4 in x27 for retries
 
 inst_1:
 beqz x27, stop_retry_inst_1     # If 4 retries have reached zero stop retrying
-lr.w x30, (x31)                 # Load reserve from rvtest_data
+lr.d x30, (x31)                 # Load reserve from rvtest_data
 li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-sc.w x29, x30, (x31)            # Store conditional to same address
+li   x30, 0                     # Load zero to verify the changed value
+sc.d x29, x30, (x31)            # Store conditional to same address
 addi x27, x27, -1               # Decrease counter for retries
 bnez x29, inst_1                # Check if store conditional passed otherwise retry
 
@@ -62,6 +64,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

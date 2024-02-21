@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-misaligned covergroup.
+// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-misaligned covergroup.
 //This test first does the load reserve and then it store reserve to the same reservation set, the address of the reservation set is misaligned by 1, 2 and 3 bytes.
 // 
 #include "model_test.h"
@@ -22,50 +22,56 @@ LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_0:
 addi x31, x31, 1        # Add 1 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 1
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 1    
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 1
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 1    
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_1:
 addi x31, x31, 2        # Add 2 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 2
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 2
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 2
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 2
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_2:
 addi x31, x31, 3        # Add 3 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 3
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 3
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 3
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 3
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_3:
 addi x31, x31, 4        # Add 4 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 4
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 4
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 4
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 4
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_4:
 addi x31, x31, 5        # Add 5 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 5
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 5
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 5
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 5
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_5:
 addi x31, x31, 6        # Add 6 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 6
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 6
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 6
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 6
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
 
 inst_6:
 addi x31, x31, 7        # Add 7 to rvtest_data
-lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 7
-sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 7
+lr.d x30, (x31)         # Load reserve rvtest_data by misaligned 7
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 7
 
 
 #endif
@@ -81,6 +87,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

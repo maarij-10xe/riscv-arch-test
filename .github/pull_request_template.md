@@ -27,7 +27,7 @@
 
   - [ ] All tests are compliant with the test-format spec present in this repo ?
   - [ ] Ran the new tests on RISCOF with SAIL/Spike as reference model successfully ?
-  - [ ] Ran the new tests on RISCOF in [coverage mode](https://riscof.readthedocs.io/en/stable/commands.html#coverage)
+  - [ ] Ran the new tests on RISCOF in [coverage mode](https://docs.google.com/spreadsheets/d/1kYHKfZmSDmKRlSjKyRu-vJVfNVUDYSDgLT42q_Obbxw/edit?usp=sharing)
   - [ ] Link to Google-Drive folder containing the new coverage reports ([See this](https://github.com/riscv-non-isa/riscv-arch-test/blob/main/CONTRIBUTION.md#uploading-test-stats) for more info): < SPECIFY HERE >
   - [ ] Link to PR in RISCV-ISAC from which the reports were generated : < SPECIFY HERE > 
   - [ ] Changelog entry created with a minor patch

@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-constrained-loop covergroup.
+// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-constrained-loop covergroup.
 // This test first acquires access through load reserve and during the loop it performs only I type instructions and then it store reserve to the same reservation set.
 // 
 #include "model_test.h"
@@ -23,10 +23,11 @@ LI (x27, 0x4)
 
 inst_0:
 beqz x27, stop_retry            # If 4 retries have reached zero stop retrying
-lr.w.aq x30, (x31)              # Load reserve and acquire from rvtest_data
+lr.d.aq x30, (x31)              # Load reserve and acquire from rvtest_data
 li   x28, 0x0000FFFF            # Mask the read data
 and  x30, x30, x28
-sc.w.rl  x29, x30, (x31)        # Store conditional and release to same address 
+li   x30, 0                     # Load zero to verify the changed value
+sc.d.rl  x29, x30, (x31)        # Store conditional and release to same address 
 addi x27, x27, -1               # Decrease counter for retries
 bnez x29, inst_0                # Check if store conditional passed otherwise retry
 
@@ -45,6 +46,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

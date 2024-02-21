@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-fail covergroup.
+// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-fail covergroup.
 // This test first acquires access through load reserve and before the store reserve to the reservation set it does another sw to the same address and then it store reserve to the same reservation set.
 // 
 #include "model_test.h"
@@ -22,14 +22,16 @@ LA (x31, rvtest_data)   # Load address of rvtest_data in 31
 addi x28, x31, 4        # Load address of rvtest_data + 4 in x28
 
 inst_0:
-lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
+lr.d.aq x30, (x31)      # Load reserve and acquire from rvtest_data
 sw   x30, (x31)         # Store word to rvtest_data
-sc.w x29, x30, (x31)    # Store conditional to same address
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to same address
 
 inst_1:
-lr.w.aq x30, (x31)      # Load reserve and acquire from rvtest_data
+lr.d.aq x30, (x31)      # Load reserve and acquire from rvtest_data
 sw   x30, (x28)         # Store word to rvtest_data + 4
-sc.w x29, x30, (x31)    # Store conditional to same address
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store conditional to same address
 
 
 #endif
@@ -45,12 +47,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
-.word 0xbabecafe
-.word 0xabecafeb
-.word 0xbecafeba
-.word 0xecafebab
-.align 4
-
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

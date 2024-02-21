@@ -52,6 +52,8 @@ and  x30, x30, x28
 and  x30, x30, x28
 and  x30, x30, x28
 
+li   x30, 0                     # Load zero to verify the changed value
+
 sc.w.rl  x29, x30, (x31)        # Store conditional and release to same address 
 addi x27, x27, -1               # Decrease counter for retries
 bnez x29, inst_0                # Check if store conditional passed otherwise retry
@@ -71,6 +73,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

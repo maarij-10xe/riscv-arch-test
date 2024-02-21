@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w instruction of the RISC-V RV32A extension for the lr-sc-fail covergroup.
+// This assembly file tests the lr.r and sc.d instruction of the RISC-V RV64A extension for the lr-sc-fail covergroup.
 // This test first does the load reserve and before the store reserve to the reservation set it does another sc to a different address and then it store reserve to the same reservation set. 
 // 
 #include "model_test.h"
@@ -23,30 +23,34 @@ LA (x28, rvtest_data)   # Load address of rvtest_data in x28
 addi x28, x28, 16       # Add 16 to address of rvtest_data
 
 inst_0:
-lr.w x30, (x31)         # Load Reserve from rvtest_data
-sc.w x29, x30, (x28)    # Store Condtional to rvtest_data + 16
-sc.w x29, x30, (x31)    # Store Conditional to rvtest_data
+lr.d x30, (x31)         # Load Reserve from rvtest_data
+sc.d x29, x30, (x28)    # Store Condtional to rvtest_data + 16
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store Conditional to rvtest_data
 
 inst_1:
 addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
-lr.w x30, (x31)         # Load reserve from rvtest_data + 4
-sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 20
-sc.w x29, x30, (x31)    # Store Conditional to rvtest_data + 4
+lr.d x30, (x31)         # Load reserve from rvtest_data + 4
+sc.d x29, x30, (x28)    # Store Conditional to rvtest_data + 20
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store Conditional to rvtest_data + 4
 
 inst_2:
 addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
-lr.w x30, (x31)         # Load reserve from rvtest_data + 8
-sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 24
-sc.w x29, x30, (x31)    # Store Conditional to rvtest_data + 8
+lr.d x30, (x31)         # Load reserve from rvtest_data + 8
+sc.d x29, x30, (x28)    # Store Conditional to rvtest_data + 24
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store Conditional to rvtest_data + 8
 
 inst_3:
 addi x31, x31, 4        # Add 4 to rvtest_data in x31
 addi x28, x28, 4        # Add 4 to rvtest_data in x28
-lr.w x30, (x31)         # Load reserve from rvtest_data + 12
-sc.w x29, x30, (x28)    # Store Conditional to rvtest_data + 28
-sc.w x29, x30, (x31)    # Store Conditional to rvtest_data  + 12
+lr.d x30, (x31)         # Load reserve from rvtest_data + 12
+sc.d x29, x30, (x28)    # Store Conditional to rvtest_data + 28
+li   x30, 0             # Load zero to verify the changed value
+sc.d x29, x30, (x31)    # Store Conditional to rvtest_data  + 12
 
 #endif
 
@@ -61,10 +65,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
-.word 0xbabecafe
-.word 0xabecafeb
-.word 0xbecafeba
-.word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 .align 4
 
 RVTEST_DATA_END

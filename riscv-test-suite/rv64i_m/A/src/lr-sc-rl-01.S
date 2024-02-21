@@ -1,5 +1,5 @@
 //
-// This assembly file tests the lr.r and sc.w.rl instruction of the RISC-V RV32A extension for the lr-sc-rl covergroup.
+// This assembly file tests the lr.r and sc.d.rl instruction of the RISC-V RV64A extension for the lr-sc-rl covergroup.
 // This test first does the load reserve and then it store reserve to the same reservation set and releases the access.
 // 
 #include "model_test.h"
@@ -21,23 +21,27 @@ RVTEST_SIGBASE(x1,signature_x1_1)
 LA (x31, rvtest_data)           # Load address of rvtest_data
 
 inst_0:
-lr.w x30, (x31)                 # Load reserve the rvtest_data
-sc.w.rl x29, x30, (x31)         # Store conditional and release on the same address
+lr.d x30, (x31)                 # Load reserve the rvtest_data
+li   x30, 0             # Load zero to verify the changed value
+sc.d.rl x29, x30, (x31)         # Store conditional and release on the same address
 
 inst_1:
 addi x31, x31, 4                # Add 4 to go to next address
-lr.w x30, (x31)                 # Load reserve the rvtest_data + 4
-sc.w.rl x29, x30, (x31)         # Store conditional and release on the same address
+lr.d x30, (x31)                 # Load reserve the rvtest_data + 4
+li   x30, 0             # Load zero to verify the changed value
+sc.d.rl x29, x30, (x31)         # Store conditional and release on the same address
 
 inst_2:
 addi x31, x31, 4                # Add 4 to go to next address
-lr.w x30, (x31)                 # Load reserve the rvtest_data + 8
-sc.w.rl x29, x30, (x31)         # Store conditional and release on the same address
+lr.d x30, (x31)                 # Load reserve the rvtest_data + 8
+li   x30, 0             # Load zero to verify the changed value
+sc.d.rl x29, x30, (x31)         # Store conditional and release on the same address
 
 inst_3:
 addi x31, x31, 4                # Add 4 to go to next address
-lr.w x30, (x31)                 # Load reserve the rvtest_data + 12
-sc.w.rl x29, x30, (x31)         # Store conditional and release on the same address
+lr.d x30, (x31)                 # Load reserve the rvtest_data + 12
+li   x30, 0             # Load zero to verify the changed value
+sc.d.rl x29, x30, (x31)         # Store conditional and release on the same address
 #endif
 
 
@@ -51,6 +55,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN

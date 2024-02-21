@@ -23,6 +23,7 @@ LA (x31, rvtest_data)   # Load address of rvtest_data
 inst_0:
 addi x31, x31, 1        # Add 1 to rvtest_data
 lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 1
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 1    
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
@@ -30,6 +31,7 @@ LA (x31, rvtest_data)   # Load address of rvtest_data
 inst_1:
 addi x31, x31, 2        # Add 2 to rvtest_data
 lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 2
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 2
 
 LA (x31, rvtest_data)   # Load address of rvtest_data
@@ -37,6 +39,7 @@ LA (x31, rvtest_data)   # Load address of rvtest_data
 inst_2:
 addi x31, x31, 3        # Add 3 to rvtest_data
 lr.w x30, (x31)         # Load reserve rvtest_data by misaligned 3
+li   x30, 0             # Load zero to verify the changed value
 sc.w x29, x30, (x31)    # Store conditional to rvtest_data by misaligned 3
 
 #endif
@@ -52,6 +55,10 @@ rvtest_data:
 .word 0xabecafeb
 .word 0xbecafeba
 .word 0xecafebab
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
+.word 0xffffffff
 RVTEST_DATA_END
 
 RVMODEL_DATA_BEGIN
