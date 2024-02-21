@@ -21,7 +21,7 @@ RVTEST_SIGBASE(x1,signature_x1_1)
 
 LA (x31, rvtest_data)           # Load address of rvtest_data in x31
 LA (x26, rvtest_data)           # Load address of rvtest_data in x26
-addi x28, x28, 4                # Add 4 to address of rvtest_data
+addi x26, x26, 4                # Add 4 to address of rvtest_data
 LI (x27, 0x4)                   # Load 4 in x27 for retries
 
 inst_0:
